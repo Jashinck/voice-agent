@@ -193,8 +193,7 @@ public class HttpTTSAdapter implements TTS {
             requestBody.put("text", text);
             requestBody.put("voice", voice);
             
-            String jsonRequest = objectMapper.writeValueAsString(requestBody);
-            logger.debug("TTS request payload: {}", jsonRequest);
+            logger.debug("TTS request: voice={}, textLength={}", voice, text.length());
             
             Flux<DataBuffer> audioDataFlux = webClient.post()
                 .contentType(MediaType.APPLICATION_JSON)
