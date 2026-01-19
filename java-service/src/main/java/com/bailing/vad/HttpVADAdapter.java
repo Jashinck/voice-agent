@@ -276,8 +276,6 @@ public class HttpVADAdapter implements VAD {
      */
     private void sendResetRequest(String requestJson) throws Exception {
         try {
-            String resetUrl = serviceUrl + RESET_ENDPOINT;
-            
             Mono<String> responseMono = webClient.post()
                 .uri(RESET_ENDPOINT)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -288,7 +286,7 @@ public class HttpVADAdapter implements VAD {
             
             responseMono.block();
             
-            logger.debug("Reset request sent successfully to: {}", resetUrl);
+            logger.debug("Reset request sent successfully to: {}{}", serviceUrl, RESET_ENDPOINT);
             
         } catch (Exception e) {
             logger.error("Failed to send reset request to VAD service: {}{}", 
