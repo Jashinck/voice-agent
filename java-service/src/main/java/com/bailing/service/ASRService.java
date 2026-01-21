@@ -171,7 +171,9 @@ public class ASRService {
             
             logger.debug("开始Vosk识别: {}", audioFile.getName());
             
-            // Skip WAV header (44 bytes)
+            // Skip WAV header (assumes standard 44-byte header)
+            // Note: Standard WAV files have a 44-byte header. If using non-standard WAV formats,
+            // this may need adjustment or proper header parsing.
             fis.skip(44);
             
             byte[] buffer = new byte[4096];

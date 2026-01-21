@@ -48,6 +48,9 @@ public class VADService {
     @Value("${vad.model.path:models/silero_vad.onnx}")
     private String modelPath;
     
+    @Value("${vad.frame.duration.ms:50}")
+    private int frameDurationMs;
+    
     private final Map<String, VADState> sessionStates = new ConcurrentHashMap<>();
     
     // Constants for calculation clarity
@@ -181,12 +184,8 @@ public class VADService {
             OnnxTensor inputTensor = OnnxTensor.createTensor(env, 
                 FloatBuffer.wrap(audioSamples), shape);
             
-            // Prepare state tensors (for stateful model)
-            Map<String, OnnxTensor> inputs = new HashMap<>();
-            inputs.put("input", inputTensor);
-            
-            // Run inference
-            try (OrtSession.Result result = session.run(inputs)) {
+            // Run inference using singleton map for better performance
+            try (OrtSession.Result result = session.run(Collections.singletonMap("input", inputTensor))) {
                 // Extract speech probability
                 float speechProb = extractSpeechProbability(result);
                 
@@ -264,8 +263,8 @@ public class VADService {
             return "start";
         } else if (!isSpeech && state.isSpeaking) {
             state.silenceFrames++;
-            // Calculate minimum silence frames
-            int minSilenceFrames = minSilenceDurationMs / 50; // Assuming ~50ms per frame
+            // Calculate minimum silence frames based on configured frame duration
+            int minSilenceFrames = minSilenceDurationMs / frameDurationMs;
             if (state.silenceFrames >= minSilenceFrames) {
                 state.isSpeaking = false;
                 state.silenceFrames = 0;

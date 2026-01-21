@@ -50,6 +50,11 @@ public class TTSService {
     private Object marytts; // Using Object to avoid compile-time dependency
     private boolean maryTTSAvailable = false;
     
+    // Cached reflection methods for performance
+    private java.lang.reflect.Method getAvailableVoicesMethod;
+    private java.lang.reflect.Method setVoiceMethod;
+    private java.lang.reflect.Method generateAudioMethod;
+    
     /**
      * Initialize MaryTTS on service startup (if available).
      */
@@ -59,15 +64,20 @@ public class TTSService {
             // Try to load MaryTTS using reflection to avoid compile-time dependency
             Class<?> maryInterfaceClass = Class.forName("marytts.LocalMaryInterface");
             marytts = maryInterfaceClass.getDeclaredConstructor().newInstance();
+            
+            // Cache reflection methods for performance
+            getAvailableVoicesMethod = maryInterfaceClass.getMethod("getAvailableVoices");
+            setVoiceMethod = maryInterfaceClass.getMethod("setVoice", String.class);
+            generateAudioMethod = maryInterfaceClass.getMethod("generateAudio", String.class);
+            
             maryTTSAvailable = true;
             
             logger.info("✅ MaryTTS初始化成功");
             logger.info("默认语音: {}", defaultVoice);
             
-            // Log available voices using reflection
-            java.lang.reflect.Method getVoicesMethod = maryInterfaceClass.getMethod("getAvailableVoices");
+            // Log available voices
             @SuppressWarnings("unchecked")
-            Set<String> voices = (Set<String>) getVoicesMethod.invoke(marytts);
+            Set<String> voices = (Set<String>) getAvailableVoicesMethod.invoke(marytts);
             logger.info("可用语音数量: {}", voices.size());
             if (!voices.isEmpty()) {
                 logger.debug("可用语音列表: {}", String.join(", ", voices));
@@ -157,24 +167,20 @@ public class TTSService {
         }
         
         try {
-            // Use reflection to call MaryTTS methods
-            Class<?> maryInterfaceClass = marytts.getClass();
+            // Use cached reflection methods
             
             // Get available voices
-            java.lang.reflect.Method getVoicesMethod = maryInterfaceClass.getMethod("getAvailableVoices");
             @SuppressWarnings("unchecked")
-            Set<String> availableVoices = (Set<String>) getVoicesMethod.invoke(marytts);
+            Set<String> availableVoices = (Set<String>) getAvailableVoicesMethod.invoke(marytts);
             
             // Set voice if available
             if (availableVoices.contains(voice)) {
-                java.lang.reflect.Method setVoiceMethod = maryInterfaceClass.getMethod("setVoice", String.class);
                 setVoiceMethod.invoke(marytts, voice);
                 logger.debug("使用语音: {}", voice);
             } else {
                 logger.warn("语音 '{}' 不可用，使用默认语音", voice);
                 if (!availableVoices.isEmpty()) {
                     String firstVoice = availableVoices.iterator().next();
-                    java.lang.reflect.Method setVoiceMethod = maryInterfaceClass.getMethod("setVoice", String.class);
                     setVoiceMethod.invoke(marytts, firstVoice);
                     logger.debug("使用可用语音: {}", firstVoice);
                 }
@@ -182,8 +188,7 @@ public class TTSService {
             
             // Generate audio
             logger.debug("开始MaryTTS合成: {} 字符", text.length());
-            java.lang.reflect.Method generateMethod = maryInterfaceClass.getMethod("generateAudio", String.class);
-            AudioInputStream audio = (AudioInputStream) generateMethod.invoke(marytts, text);
+            AudioInputStream audio = (AudioInputStream) generateAudioMethod.invoke(marytts, text);
             
             // Write to file
             AudioSystem.write(audio, AudioFileFormat.Type.WAVE, outputFile);
@@ -290,10 +295,9 @@ public class TTSService {
         
         if (maryTTSAvailable && marytts != null) {
             try {
-                // Get actual voices from MaryTTS using reflection
-                java.lang.reflect.Method getVoicesMethod = marytts.getClass().getMethod("getAvailableVoices");
+                // Get actual voices from MaryTTS using cached reflection method
                 @SuppressWarnings("unchecked")
-                Set<String> availableVoices = (Set<String>) getVoicesMethod.invoke(marytts);
+                Set<String> availableVoices = (Set<String>) getAvailableVoicesMethod.invoke(marytts);
                 
                 for (String voiceName : availableVoices) {
                     Map<String, String> voice = new HashMap<>();
