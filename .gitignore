@@ -29,6 +29,7 @@ env/
 
 # 项目特定
 tmp/
+temp/
 logs/
 models/
 .env
