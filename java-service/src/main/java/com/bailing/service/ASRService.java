@@ -84,13 +84,14 @@ public class ASRService {
             return result;
             
         } finally {
-            // Clean up temporary file
-            try {
-                if (tempFile != null && tempFile.exists()) {
-                    tempFile.delete();
+            // Clean up temporary file using Files.deleteIfExists for robustness
+            if (tempFile != null) {
+                try {
+                    java.nio.file.Files.deleteIfExists(tempFile.toPath());
+                    logger.debug("Cleaned up temporary ASR file: {}", tempFile.getAbsolutePath());
+                } catch (Exception e) {
+                    logger.warn("Failed to delete temp file: {}", tempFile, e);
                 }
-            } catch (Exception e) {
-                logger.warn("Failed to delete temp file: {}", tempFile, e);
             }
         }
     }

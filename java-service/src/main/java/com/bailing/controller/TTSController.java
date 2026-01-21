@@ -91,6 +91,21 @@ public class TTSController {
             headers.setContentDispositionFormData("attachment", audioFile.getName());
             
             // Schedule file deletion after response is sent
+            // Note: In production, consider implementing a cleanup scheduler
+            // to periodically delete old temporary files
+            final File fileToDelete = audioFile;
+            new Thread(() -> {
+                try {
+                    Thread.sleep(5000); // Wait 5 seconds before deletion
+                    if (fileToDelete.exists()) {
+                        fileToDelete.delete();
+                        logger.debug("Cleaned up temporary TTS file: {}", fileToDelete.getAbsolutePath());
+                    }
+                } catch (Exception e) {
+                    logger.warn("Failed to cleanup TTS file: {}", fileToDelete.getAbsolutePath(), e);
+                }
+            }).start();
+            
             return ResponseEntity.ok()
                 .headers(headers)
                 .body(resource);

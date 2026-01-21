@@ -45,6 +45,10 @@ public class VADService {
     
     private final Map<String, VADState> sessionStates = new ConcurrentHashMap<>();
     
+    // Constants for calculation clarity
+    private static final int BYTES_PER_SAMPLE = 2; // int16 = 2 bytes
+    private static final int MS_PER_SECOND = 1000;
+    
     @PostConstruct
     public void init() {
         logger.info("✅ VAD服务初始化完成");
@@ -109,7 +113,7 @@ public class VADService {
     private String performDetection(byte[] audioBytes, VADState state) {
         // Convert bytes to int16 samples
         ByteBuffer buffer = ByteBuffer.wrap(audioBytes).order(ByteOrder.LITTLE_ENDIAN);
-        int numSamples = audioBytes.length / 2;
+        int numSamples = audioBytes.length / BYTES_PER_SAMPLE;
         
         // Calculate simple energy metric
         double energy = 0;
@@ -133,7 +137,9 @@ public class VADService {
             return "start";
         } else if (!isSpeech && state.isSpeaking) {
             state.silenceFrames++;
-            int minSilenceFrames = (minSilenceDurationMs * samplingRate) / (1000 * numSamples);
+            // Calculate minimum silence frames: (minSilenceDurationMs * samplingRate) / (MS_PER_SECOND * numSamples)
+            // This converts: milliseconds → samples → frames
+            int minSilenceFrames = calculateMinSilenceFrames(numSamples);
             if (state.silenceFrames >= minSilenceFrames) {
                 state.isSpeaking = false;
                 state.silenceFrames = 0;
@@ -144,6 +150,18 @@ public class VADService {
         }
         
         return null;
+    }
+    
+    /**
+     * Calculates minimum silence frames based on configuration.
+     * 
+     * @param numSamples Number of samples in current audio chunk
+     * @return Minimum number of silent frames required to trigger speech end
+     */
+    private int calculateMinSilenceFrames(int numSamples) {
+        // Convert minSilenceDurationMs to number of frames
+        // frames = (duration_ms * sampling_rate_hz) / (1000 ms/s * samples_per_frame)
+        return (minSilenceDurationMs * samplingRate) / (MS_PER_SECOND * numSamples);
     }
     
     /**
