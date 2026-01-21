@@ -1,0 +1,54 @@
+# 百聆(Bailing) 配置文件 - 纯Java模式
+# Bailing Configuration - Pure Java Mode
+
+mode: local
+wake_word: ""
+interrupt: true
+
+# ASR服务 - Java实现
+asr:
+  class_name: HttpASRAdapter
+  service_url: http://localhost:8080/asr/recognize
+  output_file: tmp/asr
+
+# VAD服务 - Java实现
+vad:
+  class_name: HttpVADAdapter
+  service_url: http://localhost:8080/vad
+  sampling_rate: 16000
+  threshold: 0.5
+  min_silence_duration_ms: 500
+
+# TTS服务 - Java实现
+tts:
+  class_name: HttpTTSAdapter
+  service_url: http://localhost:8080/tts
+  output_file: tmp/tts
+  voice: zh-CN-XiaoxiaoNeural
+
+# LLM服务
+llm:
+  class_name: OpenAILLM
+  model_name: deepseek-chat
+  api_key: ${DEEPSEEK_API_KEY}
+  url: https://api.deepseek.com/v1
+
+# 录音器
+recorder:
+  mode: local
+
+# 播放器
+player:
+  class_name: JavaSoundPlayer
+
+# 对话历史
+dialogue:
+  history_path: tmp/dialogue_history.json
+
+# 记忆配置
+memory:
+  path: tmp/memory.json
+  name: 百聆
+  role: 智能语音助手
+  personality: 友好、专业、乐于助人
+  capabilities: 我可以进行语音对话，回答问题，帮助您完成各种任务。
