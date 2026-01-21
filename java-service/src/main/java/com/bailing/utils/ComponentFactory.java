@@ -2,8 +2,10 @@ package com.bailing.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.Map;
 
 /**
@@ -47,6 +49,17 @@ public class ComponentFactory {
     private static final Logger logger = LoggerFactory.getLogger(ComponentFactory.class);
     
     private static final String CLASS_NAME_KEY = "class_name";
+    private static ApplicationContext springContext;
+    
+    /**
+     * Sets the Spring application context for dependency injection.
+     * 
+     * @param context Spring application context
+     */
+    public static void setSpringContext(ApplicationContext context) {
+        springContext = context;
+        logger.info("Spring context set in ComponentFactory");
+    }
     
     /**
      * Creates an ASR (Automatic Speech Recognition) instance from configuration.
@@ -246,6 +259,11 @@ public class ComponentFactory {
             Object instance = constructor.newInstance(config);
             logger.info("Successfully created {} component: {}", componentType, className);
             
+            // Inject Spring dependencies if available
+            if (springContext != null) {
+                injectSpringDependencies(instance, componentType);
+            }
+            
             return instance;
             
         } catch (ClassNotFoundException e) {
@@ -288,6 +306,81 @@ public class ComponentFactory {
             
             throw new NoSuchMethodException(
                 "No constructor found that accepts Map parameter in class: " + clazz.getName());
+        }
+    }
+    
+    /**
+     * Injects Spring dependencies into a component instance.
+     * 
+     * <p>Looks for setter methods and attempts to inject Spring beans.</p>
+     * 
+     * @param instance Component instance
+     * @param componentType Component type for logging
+     */
+    private static void injectSpringDependencies(Object instance, String componentType) {
+        try {
+            String className = instance.getClass().getSimpleName();
+            
+            // For Direct adapters, inject the appropriate service
+            if ("DirectASRAdapter".equals(className)) {
+                injectService(instance, "setAsrService", "ASRService");
+            } else if ("DirectVADAdapter".equals(className)) {
+                injectService(instance, "setVadService", "VADService");
+            } else if ("DirectTTSAdapter".equals(className)) {
+                injectService(instance, "setTtsService", "TTSService");
+            }
+            
+        } catch (Exception e) {
+            logger.warn("Failed to inject Spring dependencies into {}: {}", componentType, e.getMessage());
+        }
+    }
+    
+    /**
+     * Injects a specific service into an instance via setter method.
+     * 
+     * @param instance Instance to inject into
+     * @param setterName Name of setter method
+     * @param serviceName Name of service class (simple name)
+     */
+    private static void injectService(Object instance, String setterName, String serviceName) {
+        if (springContext == null) {
+            logger.debug("Spring context not available, skipping dependency injection");
+            return;
+        }
+        
+        try {
+            // Use fully qualified class name for security
+            String fullClassName = "com.bailing.service." + serviceName;
+            Class<?> serviceClass = Class.forName(fullClassName);
+            Object service = springContext.getBean(serviceClass);
+            
+            // Try to find and invoke the setter method
+            Class<?>[] interfaces = serviceClass.getInterfaces();
+            Method setter = null;
+            
+            // Try with interface if available
+            if (interfaces != null && interfaces.length > 0) {
+                try {
+                    setter = instance.getClass().getMethod(setterName, interfaces[0]);
+                } catch (NoSuchMethodException e) {
+                    // Continue to try with concrete class
+                }
+            }
+            
+            // If no interface setter found, try with concrete class
+            if (setter == null) {
+                setter = instance.getClass().getMethod(setterName, serviceClass);
+            }
+            
+            setter.invoke(instance, service);
+            logger.info("Injected {} into {}", serviceName, instance.getClass().getSimpleName());
+            
+        } catch (ClassNotFoundException e) {
+            logger.warn("Service class not found: {}", serviceName);
+        } catch (NoSuchMethodException e) {
+            logger.warn("Setter method {} not found in {}", setterName, instance.getClass().getSimpleName());
+        } catch (Exception e) {
+            logger.warn("Failed to inject {}: {}", serviceName, e.getMessage());
         }
     }
     
