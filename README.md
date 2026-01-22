@@ -36,7 +36,12 @@ wget https://github.com/snakers4/silero-vad/raw/master/files/silero_vad.onnx -O 
 ```
 
 **MaryTTS 语音:**
-MaryTTS 语音会在首次运行时自动下载（需要网络连接）。
+MaryTTS 5.2.1 在 Maven Central 有依赖解析问题。要使用 MaryTTS:
+1. 从 https://github.com/marytts/marytts/releases 下载 marytts-builder-5.2.1.zip
+2. 解压并将 JAR 添加到项目依赖
+3. 取消 TTSService.java 中 MaryTTS 代码的注释
+
+目前 TTS 服务使用占位符实现（生成静音 WAV 文件）。
 
 #### 2. 构建和启动 (Build and Run)
 
@@ -69,7 +74,7 @@ docker-compose up -d
 ### 实现状态 (Implementation Status)
 
 ✅ **ASR (自动语音识别)** - 已集成 Vosk 离线语音识别  
-✅ **TTS (文本转语音)** - 已集成 MaryTTS 语音合成  
+⚠️ **TTS (文本转语音)** - 已准备 MaryTTS 集成（需手动安装）  
 ✅ **VAD (语音活动检测)** - 已集成 Silero VAD (ONNX Runtime)
 
 所有服务均使用纯 Java 实现，无需 Python 依赖。

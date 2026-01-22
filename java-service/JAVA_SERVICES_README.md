@@ -129,7 +129,7 @@ POST /vad/clear
 本实现提供了与Python服务完全兼容的REST API接口，并已集成实际的Java机器学习库：
 
 ✅ **ASR服务** - 已集成 **Vosk** 离线语音识别  
-✅ **TTS服务** - 已集成 **MaryTTS** 文本转语音  
+⚠️ **TTS服务** - 已准备 **MaryTTS** 集成（需手动安装，见下文）  
 ✅ **VAD服务** - 已集成 **Silero VAD** (ONNX Runtime) 语音活动检测
 
 所有服务均使用纯 Java 实现，无需 Python 依赖。
@@ -137,7 +137,7 @@ POST /vad/clear
 This implementation provides REST API interfaces fully compatible with the Python services and has integrated actual Java machine learning libraries:
 
 ✅ **ASR Service** - Integrated **Vosk** for offline speech recognition  
-✅ **TTS Service** - Integrated **MaryTTS** for text-to-speech synthesis  
+⚠️ **TTS Service** - Ready for **MaryTTS** integration (requires manual setup, see below)  
 ✅ **VAD Service** - Integrated **Silero VAD** (ONNX Runtime) for voice activity detection
 
 All services are implemented in pure Java with no Python dependencies.
@@ -151,11 +151,14 @@ All services are implemented in pure Java with no Python dependencies.
 - 如模型文件不存在，服务启动时会给出明确的下载提示
 
 #### TTS服务 (TTS Service)
-- **MaryTTS 5.2**: Java原生文本转语音引擎
-- 支持多种语音和语言
-- 默认语音可配置: `tts.voice`
-- 首次启动时会自动下载所需的语音数据（需要网络连接）
-- 提供 `/tts/voices` 端点列出所有可用语音
+- **MaryTTS 5.2.1**: Java原生文本转语音引擎（需手动安装）
+- ⚠️ **Maven依赖问题**: MaryTTS及其传递依赖在Maven Central不完整
+- **手动安装步骤**:
+  1. 下载: https://github.com/marytts/marytts/releases/download/v5.2.1/marytts-builder-5.2.1.zip
+  2. 解压并将所有JAR添加到项目classpath或本地Maven仓库
+  3. 取消TTSService.java中MaryTTS代码的注释
+- **当前状态**: 使用占位符实现（生成静音WAV文件）
+- **替代方案**: 可考虑使用云服务API（Google Cloud TTS、Azure Speech等）
 
 #### VAD服务 (VAD Service)
 - **Silero VAD (ONNX Runtime 1.16.3)**: 高精度语音活动检测
@@ -227,8 +230,10 @@ vad:
 - 下载地址: https://github.com/snakers4/silero-vad/raw/master/files/silero_vad.onnx
 
 #### MaryTTS 语音
-- 首次运行时自动下载（需要网络连接）
-- 可选安装中文语音包: `marytts-lang-zh`
+- ⚠️ 由于Maven依赖问题，MaryTTS需要手动安装
+- 下载地址: https://github.com/marytts/marytts/releases
+- 安装后取消TTSService中相关代码的注释
+- 当前使用占位符实现（生成静音WAV）
 
 ## 部署 (Deployment)
 
@@ -345,9 +350,10 @@ curl http://localhost:8080/tts/voices
 ## 下一步 (Next Steps)
 
 1. ✅ ~~选择并集成实际的ASR库~~ (已完成 - Vosk)
-2. ✅ ~~选择并集成实际的TTS库~~ (已完成 - MaryTTS)
+2. ⚠️ ~~选择并集成实际的TTS库~~ (MaryTTS已准备，需手动安装)
 3. ✅ ~~选择并集成实际的VAD库~~ (已完成 - Silero VAD)
 4. 添加单元测试和集成测试
 5. 优化性能和资源使用
 6. 添加监控和日志记录
 7. 支持更多语言和模型
+8. 考虑云服务API作为TTS替代方案（Google Cloud TTS、Azure Speech等）
