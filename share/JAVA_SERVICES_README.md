@@ -188,7 +188,7 @@ vad:
 
 #### Silero VAD 模型
 - 需要下载 ONNX 模型文件到 `models/silero_vad.onnx`
-- 下载地址: https://github.com/snakers4/silero-vad/raw/master/files/silero_vad.onnx
+- 下载地址: https://github.com/snakers4/silero-vad/raw/master/src/silero_vad/data/silero_vad.onnx
 
 #### MaryTTS 语音
 - ⚠️ 由于Maven依赖问题，MaryTTS需要手动安装
@@ -543,7 +543,7 @@ mkdir -p models
 
 # 下载 Silero VAD ONNX 模型
 cd models
-wget https://github.com/snakers4/silero-vad/raw/master/files/silero_vad.onnx
+wget https://github.com/snakers4/silero-vad/raw/master/src/silero_vad/data/silero_vad.onnx
 cd ..
 ```
 
@@ -587,7 +587,7 @@ unzip vosk-model-small-cn-0.22.zip
 rm vosk-model-small-cn-0.22.zip
 
 echo "下载 Silero VAD 模型..."
-wget https://github.com/snakers4/silero-vad/raw/master/files/silero_vad.onnx
+wget https://github.com/snakers4/silero-vad/raw/master/src/silero_vad/data/silero_vad.onnx
 
 cd ..
 echo "✅ 所有模型下载完成!"

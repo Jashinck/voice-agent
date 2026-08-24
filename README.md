@@ -71,7 +71,7 @@ cd ..
 **Silero VAD 模型:**
 ```bash
 mkdir -p models
-wget https://github.com/snakers4/silero-vad/raw/master/files/silero_vad.onnx -O models/silero_vad.onnx
+wget https://github.com/snakers4/silero-vad/raw/master/src/silero_vad/data/silero_vad.onnx -O models/silero_vad.onnx
 ```
 
 **MaryTTS 语音:**

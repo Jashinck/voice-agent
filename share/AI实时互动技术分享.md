@@ -188,7 +188,7 @@ wget https://alphacephei.com/vosk/models/vosk-model-small-cn-0.22.zip
 unzip vosk-model-small-cn-0.22.zip
 
 # 下载Silero VAD模型
-wget https://github.com/snakers4/silero-vad/raw/master/files/silero_vad.onnx
+wget https://github.com/snakers4/silero-vad/raw/master/src/silero_vad/data/silero_vad.onnx
 cd ..
 ```
 
