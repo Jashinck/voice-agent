@@ -76,6 +76,7 @@
 
         <!-- Vosk ASR -->
         <!-- Vosk for ASR (Automatic Speech Recognition) -->
+        <!-- ⚠️ macOS 下 0.3.45异常，请使用0.3.38: 详见 上游 alphacep/vosk-api#1235 -->
         <dependency>
             <groupId>com.alphacephei</groupId>
             <artifactId>vosk</artifactId>
