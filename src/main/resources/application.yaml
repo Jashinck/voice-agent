@@ -79,9 +79,10 @@ webrtc:
 # LLM (Large Language Model) Configuration
 llm:
   # API Key（从环境变量 DEEPSEEK_API_KEY 读取，未设置时使用空字符串）
+  # 如果在 IDEA 里直接跑，需要在 Run Configuration 的 Environment Variables 里加 DEEPSEEK_API_KEY=你的key。
   api-key: ${DEEPSEEK_API_KEY:}
-  model-name: meta/llama-3.3-70b-instruct
-  base-url: https://integrate.api.nvidia.com/v1
+  model-name: deepseek-chat
+  base-url: https://api.deepseek.com/v1
 
 # Logging Configuration
 logging:
