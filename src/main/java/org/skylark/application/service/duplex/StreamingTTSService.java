@@ -1,5 +1,6 @@
 package org.skylark.application.service.duplex;
 
+import lombok.Getter;
 import org.skylark.application.service.TTSService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -129,6 +130,7 @@ public class StreamingTTSService {
      * Cancellable TTS session — supports barge-in
      * 可取消的TTS会话 —— 支持打断
      */
+    @Getter
     public static class StreamingTTSSession {
         private final String sessionId;
         private volatile boolean cancelled = false;
@@ -143,14 +145,6 @@ public class StreamingTTSService {
          */
         public void stopImmediately() {
             this.cancelled = true;
-        }
-
-        public boolean isCancelled() {
-            return cancelled;
-        }
-
-        public String getSessionId() {
-            return sessionId;
         }
     }
 }

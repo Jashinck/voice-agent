@@ -1,6 +1,9 @@
 package org.skylark.application.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Response DTO for WebRTC session start
@@ -9,6 +12,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Skylark Team
  * @version 1.0.0
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SessionStartResponse {
     
     @JsonProperty("session_id")
@@ -22,46 +28,4 @@ public class SessionStartResponse {
     
     @JsonProperty("message")
     private String message;
-    
-    public SessionStartResponse() {
-    }
-    
-    public SessionStartResponse(String sessionId, String websocketUrl, String status, String message) {
-        this.sessionId = sessionId;
-        this.websocketUrl = websocketUrl;
-        this.status = status;
-        this.message = message;
-    }
-    
-    public String getSessionId() {
-        return sessionId;
-    }
-    
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
-    }
-    
-    public String getWebsocketUrl() {
-        return websocketUrl;
-    }
-    
-    public void setWebsocketUrl(String websocketUrl) {
-        this.websocketUrl = websocketUrl;
-    }
-    
-    public String getStatus() {
-        return status;
-    }
-    
-    public void setStatus(String status) {
-        this.status = status;
-    }
-    
-    public String getMessage() {
-        return message;
-    }
-    
-    public void setMessage(String message) {
-        this.message = message;
-    }
 }

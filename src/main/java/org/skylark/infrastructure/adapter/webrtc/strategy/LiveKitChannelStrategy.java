@@ -2,6 +2,8 @@ package org.skylark.infrastructure.adapter.webrtc.strategy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.skylark.infrastructure.adapter.webrtc.LiveKitClientAdapter;
@@ -133,39 +135,13 @@ public class LiveKitChannelStrategy implements WebRTCChannelStrategy {
      * Internal session info for LiveKit strategy
      * LiveKit 策略的内部会话信息
      */
+    @Getter
+    @AllArgsConstructor
     static class LiveKitSessionInfo {
         private final String sessionId;
         private final String userId;
         private final String roomName;
         private final String token;
         private final String serverUrl;
-        
-        LiveKitSessionInfo(String sessionId, String userId, String roomName, String token, String serverUrl) {
-            this.sessionId = sessionId;
-            this.userId = userId;
-            this.roomName = roomName;
-            this.token = token;
-            this.serverUrl = serverUrl;
-        }
-        
-        public String getSessionId() {
-            return sessionId;
-        }
-        
-        public String getUserId() {
-            return userId;
-        }
-        
-        public String getRoomName() {
-            return roomName;
-        }
-        
-        public String getToken() {
-            return token;
-        }
-        
-        public String getServerUrl() {
-            return serverUrl;
-        }
     }
 }

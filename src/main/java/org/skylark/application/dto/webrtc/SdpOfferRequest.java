@@ -1,6 +1,9 @@
 package org.skylark.application.dto.webrtc;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Request DTO for SDP offer
@@ -9,23 +12,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Skylark Team
  * @version 1.0.0
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SdpOfferRequest {
     
     @JsonProperty("sdpOffer")
     private String sdpOffer;
-    
-    public SdpOfferRequest() {
-    }
-    
-    public SdpOfferRequest(String sdpOffer) {
-        this.sdpOffer = sdpOffer;
-    }
-    
-    public String getSdpOffer() {
-        return sdpOffer;
-    }
-    
-    public void setSdpOffer(String sdpOffer) {
-        this.sdpOffer = sdpOffer;
-    }
 }

@@ -2,6 +2,8 @@ package org.skylark.infrastructure.adapter.webrtc.strategy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.skylark.application.service.OrchestrationService;
@@ -213,26 +215,13 @@ public class AliRTCChannelStrategy implements WebRTCChannelStrategy {
      * Internal session info for AliRTC strategy.
      * 阿里云 ARTC 策略的内部会话信息
      */
+    @Getter
+    @AllArgsConstructor
     static class AliRTCSessionInfo {
         private final String sessionId;
         private final String userId;
         private final String channelId;
         private final String authInfo;
         private final String appId;
-
-        AliRTCSessionInfo(String sessionId, String userId,
-                           String channelId, String authInfo, String appId) {
-            this.sessionId = sessionId;
-            this.userId = userId;
-            this.channelId = channelId;
-            this.authInfo = authInfo;
-            this.appId = appId;
-        }
-
-        public String getSessionId() { return sessionId; }
-        public String getUserId() { return userId; }
-        public String getChannelId() { return channelId; }
-        public String getAuthInfo() { return authInfo; }
-        public String getAppId() { return appId; }
     }
 }

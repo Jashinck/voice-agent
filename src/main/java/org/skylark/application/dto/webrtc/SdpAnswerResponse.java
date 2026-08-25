@@ -1,6 +1,9 @@
 package org.skylark.application.dto.webrtc;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Response DTO for SDP answer
@@ -9,23 +12,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Skylark Team
  * @version 1.0.0
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SdpAnswerResponse {
     
     @JsonProperty("sdpAnswer")
     private String sdpAnswer;
-    
-    public SdpAnswerResponse() {
-    }
-    
-    public SdpAnswerResponse(String sdpAnswer) {
-        this.sdpAnswer = sdpAnswer;
-    }
-    
-    public String getSdpAnswer() {
-        return sdpAnswer;
-    }
-    
-    public void setSdpAnswer(String sdpAnswer) {
-        this.sdpAnswer = sdpAnswer;
-    }
 }

@@ -1,5 +1,6 @@
 package org.skylark.application.service.duplex;
 
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -60,6 +61,7 @@ public class DuplexConfig {
      * Duplex mode enum with feature flags
      * 全双工模式枚举及特性标志
      */
+    @Getter
     public enum DuplexMode {
         /** Half-duplex: existing behavior, no interruption / 半双工：现有行为 */
         HALF(MODE_HALF, "Half-duplex (existing behavior)", false, false, false),
@@ -84,12 +86,6 @@ public class DuplexConfig {
             this.streamingEnabled = streamingEnabled;
             this.fullDuplexEnabled = fullDuplexEnabled;
         }
-
-        public String getValue() { return value; }
-        public String getDescription() { return description; }
-        public boolean isBargeInEnabled() { return bargeInEnabled; }
-        public boolean isStreamingEnabled() { return streamingEnabled; }
-        public boolean isFullDuplexEnabled() { return fullDuplexEnabled; }
 
         public static DuplexMode fromString(String value) {
             if (value == null) return HALF;

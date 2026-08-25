@@ -1,5 +1,8 @@
 package org.skylark.infrastructure.adapter.webrtc.strategy;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -115,30 +118,12 @@ public class WebSocketChannelStrategy implements WebRTCChannelStrategy {
      * Internal session info for WebSocket strategy
      * WebSocket 策略的内部会话信息
      */
+    @Getter
+    @Setter
+    @RequiredArgsConstructor
     static class WebSocketSessionInfo {
         private final String sessionId;
         private final String userId;
         private String sdpAnswer;
-        
-        WebSocketSessionInfo(String sessionId, String userId) {
-            this.sessionId = sessionId;
-            this.userId = userId;
-        }
-        
-        public String getSessionId() {
-            return sessionId;
-        }
-        
-        public String getUserId() {
-            return userId;
-        }
-        
-        public String getSdpAnswer() {
-            return sdpAnswer;
-        }
-        
-        public void setSdpAnswer(String sdpAnswer) {
-            this.sdpAnswer = sdpAnswer;
-        }
     }
 }

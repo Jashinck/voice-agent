@@ -1,5 +1,6 @@
 package org.skylark.infrastructure.adapter.multimodal;
 
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -111,6 +112,7 @@ public class MoshiAdapter {
      * Moshi session handle
      * Moshi会话句柄
      */
+    @Getter
     public static class MoshiSession {
         private final String sessionId;
         private volatile boolean closed = false;
@@ -121,14 +123,6 @@ public class MoshiAdapter {
 
         public void close() {
             this.closed = true;
-        }
-
-        public boolean isClosed() {
-            return closed;
-        }
-
-        public String getSessionId() {
-            return sessionId;
         }
     }
 }
