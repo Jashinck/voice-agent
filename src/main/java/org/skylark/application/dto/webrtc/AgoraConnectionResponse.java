@@ -1,6 +1,9 @@
 package org.skylark.application.dto.webrtc;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Response DTO for Agora WebRTC session connection
@@ -12,6 +15,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Skylark Team
  * @version 1.0.0
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AgoraConnectionResponse {
 
     @JsonProperty("sessionId")
@@ -34,39 +40,4 @@ public class AgoraConnectionResponse {
 
     @JsonProperty("message")
     private String message;
-
-    public AgoraConnectionResponse() {
-    }
-
-    public AgoraConnectionResponse(String sessionId, String appId, String channelName,
-                                    String token, String uid, String status, String message) {
-        this.sessionId = sessionId;
-        this.appId = appId;
-        this.channelName = channelName;
-        this.token = token;
-        this.uid = uid;
-        this.status = status;
-        this.message = message;
-    }
-
-    public String getSessionId() { return sessionId; }
-    public void setSessionId(String sessionId) { this.sessionId = sessionId; }
-
-    public String getAppId() { return appId; }
-    public void setAppId(String appId) { this.appId = appId; }
-
-    public String getChannelName() { return channelName; }
-    public void setChannelName(String channelName) { this.channelName = channelName; }
-
-    public String getToken() { return token; }
-    public void setToken(String token) { this.token = token; }
-
-    public String getUid() { return uid; }
-    public void setUid(String uid) { this.uid = uid; }
-
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-
-    public String getMessage() { return message; }
-    public void setMessage(String message) { this.message = message; }
 }

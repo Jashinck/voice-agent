@@ -1,5 +1,7 @@
 package org.skylark.application.service.duplex;
 
+import lombok.Getter;
+
 /**
  * VAD detection result with confidence
  * 带置信度的VAD检测结果
@@ -7,6 +9,7 @@ package org.skylark.application.service.duplex;
  * Enhanced result from TripleVADEngine, providing speech probability
  * and timestamp for precise barge-in control.
  */
+@Getter
 public class VADResult {
 
     private final boolean speech;
@@ -31,22 +34,6 @@ public class VADResult {
 
     public static VADResult nonSpeechEvent(AudioEventType eventType) {
         return new VADResult(false, 0.0f, System.currentTimeMillis(), eventType);
-    }
-
-    public boolean isSpeech() {
-        return speech;
-    }
-
-    public float getProbability() {
-        return probability;
-    }
-
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public AudioEventType getEventType() {
-        return eventType;
     }
 
     @Override

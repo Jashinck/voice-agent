@@ -17,6 +17,7 @@ import io.agora.rtc.VadProcessResult;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.skylark.common.util.AgoraTokenBuilder;
@@ -427,21 +428,12 @@ public class AgoraClientAdapterImpl implements AgoraClientAdapter {
      * Per-channel SDK resource context.
      * Holds all Agora SDK objects associated with a single channel connection.
      */
+    @RequiredArgsConstructor
     static class ChannelContext {
         final AgoraRtcConn conn;
         final AgoraLocalUser localUser;
         final AgoraAudioPcmDataSender pcmSender;
         final AgoraLocalAudioTrack audioTrack;
         final AgoraMediaNodeFactory factory;
-
-        ChannelContext(AgoraRtcConn conn, AgoraLocalUser localUser,
-                       AgoraAudioPcmDataSender pcmSender, AgoraLocalAudioTrack audioTrack,
-                       AgoraMediaNodeFactory factory) {
-            this.conn = conn;
-            this.localUser = localUser;
-            this.pcmSender = pcmSender;
-            this.audioTrack = audioTrack;
-            this.factory = factory;
-        }
     }
 }

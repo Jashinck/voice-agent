@@ -1,6 +1,9 @@
 package org.skylark.application.dto.webrtc;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Request DTO for ICE candidate
@@ -9,6 +12,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Skylark Team
  * @version 1.0.0
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class IceCandidateRequest {
     
     @JsonProperty("candidate")
@@ -19,37 +25,4 @@ public class IceCandidateRequest {
     
     @JsonProperty("sdpMLineIndex")
     private int sdpMLineIndex;
-    
-    public IceCandidateRequest() {
-    }
-    
-    public IceCandidateRequest(String candidate, String sdpMid, int sdpMLineIndex) {
-        this.candidate = candidate;
-        this.sdpMid = sdpMid;
-        this.sdpMLineIndex = sdpMLineIndex;
-    }
-    
-    public String getCandidate() {
-        return candidate;
-    }
-    
-    public void setCandidate(String candidate) {
-        this.candidate = candidate;
-    }
-    
-    public String getSdpMid() {
-        return sdpMid;
-    }
-    
-    public void setSdpMid(String sdpMid) {
-        this.sdpMid = sdpMid;
-    }
-    
-    public int getSdpMLineIndex() {
-        return sdpMLineIndex;
-    }
-    
-    public void setSdpMLineIndex(int sdpMLineIndex) {
-        this.sdpMLineIndex = sdpMLineIndex;
-    }
 }

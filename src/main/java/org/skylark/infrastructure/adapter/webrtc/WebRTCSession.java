@@ -1,5 +1,6 @@
 package org.skylark.infrastructure.adapter.webrtc;
 
+import lombok.Getter;
 import org.kurento.client.IceCandidate;
 import org.kurento.client.MediaPipeline;
 import org.kurento.client.WebRtcEndpoint;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
  * @author Skylark Team
  * @version 1.0.0
  */
+@Getter
 public class WebRTCSession {
     
     private static final Logger logger = LoggerFactory.getLogger(WebRTCSession.class);
@@ -236,23 +238,5 @@ public class WebRTCSession {
         }
         
         logger.info("WebRTC session released: {}", sessionId);
-    }
-    
-    // Getters
-    
-    public String getSessionId() {
-        return sessionId;
-    }
-    
-    public MediaPipeline getPipeline() {
-        return pipeline;
-    }
-    
-    public WebRtcEndpoint getWebRtcEndpoint() {
-        return webRtcEndpoint;
-    }
-    
-    public boolean isActive() {
-        return active;
     }
 }

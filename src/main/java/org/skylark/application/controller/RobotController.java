@@ -2,6 +2,8 @@ package org.skylark.application.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.skylark.application.dto.SessionStartRequest;
@@ -171,28 +173,12 @@ public class RobotController {
     /**
      * Internal class to track session information
      */
+    @Getter
+    @AllArgsConstructor
     private static class SessionInfo {
         private final String sessionId;
         private final String clientId;
         private final long startTime;
-        
-        public SessionInfo(String sessionId, String clientId, long startTime) {
-            this.sessionId = sessionId;
-            this.clientId = clientId;
-            this.startTime = startTime;
-        }
-        
-        public String getSessionId() {
-            return sessionId;
-        }
-        
-        public String getClientId() {
-            return clientId;
-        }
-        
-        public long getStartTime() {
-            return startTime;
-        }
     }
     
     // ========== Kurento WebRTC Endpoints ==========

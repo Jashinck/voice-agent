@@ -1,5 +1,7 @@
 package org.skylark.infrastructure.config;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,6 +20,8 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConfigurationProperties(prefix = "webrtc")
+@Getter
+@Setter
 public class WebRTCProperties {
 
     /**
@@ -33,154 +37,50 @@ public class WebRTCProperties {
     private final Stun stun = new Stun();
     private final Turn turn = new Turn();
 
-    public String getStrategy() {
-        return strategy;
-    }
-
-    public void setStrategy(String strategy) {
-        this.strategy = strategy;
-    }
-
-    public Kurento getKurento() {
-        return kurento;
-    }
-
-    public LiveKit getLivekit() {
-        return livekit;
-    }
-
-    public Agora getAgora() {
-        return agora;
-    }
-
-    public AliRtc getAlirtc() {
-        return alirtc;
-    }
-
-    public Stun getStun() {
-        return stun;
-    }
-
-    public Turn getTurn() {
-        return turn;
-    }
-
     /**
      * Kurento configuration
      * Kurento 配置
      */
+    @Getter
+    @Setter
     public static class Kurento {
         private String wsUri = "ws://localhost:8888/kurento";
-
-        public String getWsUri() {
-            return wsUri;
-        }
-
-        public void setWsUri(String wsUri) {
-            this.wsUri = wsUri;
-        }
     }
 
     /**
      * LiveKit configuration
      * LiveKit 配置
      */
+    @Getter
+    @Setter
     public static class LiveKit {
         private String url = "";
         private String apiKey = "";
         private String apiSecret = "";
-
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
-
-        public String getApiKey() {
-            return apiKey;
-        }
-
-        public void setApiKey(String apiKey) {
-            this.apiKey = apiKey;
-        }
-
-        public String getApiSecret() {
-            return apiSecret;
-        }
-
-        public void setApiSecret(String apiSecret) {
-            this.apiSecret = apiSecret;
-        }
     }
 
     /**
      * STUN server configuration
      * STUN 服务器配置
      */
+    @Getter
+    @Setter
     public static class Stun {
         private String server = "stun:stun.l.google.com:19302";
-
-        public String getServer() {
-            return server;
-        }
-
-        public void setServer(String server) {
-            this.server = server;
-        }
     }
 
     /**
      * TURN server configuration
      * TURN 服务器配置
      */
+    @Getter
+    @Setter
     public static class Turn {
         private boolean enabled = false;
         private String server = "";
         private String username = "";
         private String password = "";
         private String transport = "udp";
-
-        public boolean isEnabled() {
-            return enabled;
-        }
-
-        public void setEnabled(boolean enabled) {
-            this.enabled = enabled;
-        }
-
-        public String getServer() {
-            return server;
-        }
-
-        public void setServer(String server) {
-            this.server = server;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-
-        public String getTransport() {
-            return transport;
-        }
-
-        public void setTransport(String transport) {
-            this.transport = transport;
-        }
 
         /**
          * Gets the full TURN URL with credentials
@@ -210,6 +110,8 @@ public class WebRTCProperties {
      * Agora (声网) configuration
      * 声网配置
      */
+    @Getter
+    @Setter
     public static class Agora {
         private String appId = "";
         private String appCertificate = "";
@@ -217,30 +119,14 @@ public class WebRTCProperties {
         private int sampleRate = 16000;
         private int channels = 1;
         private int tokenExpireSeconds = 3600;
-
-        public String getAppId() { return appId; }
-        public void setAppId(String appId) { this.appId = appId; }
-
-        public String getAppCertificate() { return appCertificate; }
-        public void setAppCertificate(String appCertificate) { this.appCertificate = appCertificate; }
-
-        public String getRegion() { return region; }
-        public void setRegion(String region) { this.region = region; }
-
-        public int getSampleRate() { return sampleRate; }
-        public void setSampleRate(int sampleRate) { this.sampleRate = sampleRate; }
-
-        public int getChannels() { return channels; }
-        public void setChannels(int channels) { this.channels = channels; }
-
-        public int getTokenExpireSeconds() { return tokenExpireSeconds; }
-        public void setTokenExpireSeconds(int tokenExpireSeconds) { this.tokenExpireSeconds = tokenExpireSeconds; }
     }
 
     /**
      * Alibaba Cloud RTC (阿里云音视频通信) configuration
      * [E2] in the full-duplex upgrade roadmap
      */
+    @Getter
+    @Setter
     public static class AliRtc {
         private String appId = "";
         private String appKey = "";
@@ -250,26 +136,5 @@ public class WebRTCProperties {
         private int sampleRate = 16000;
         private int channels = 1;
         private int tokenTtlSeconds = 3600;
-
-        public String getAppId() { return appId; }
-        public void setAppId(String appId) { this.appId = appId; }
-
-        public String getAppKey() { return appKey; }
-        public void setAppKey(String appKey) { this.appKey = appKey; }
-
-        public String getAppSecret() { return appSecret; }
-        public void setAppSecret(String appSecret) { this.appSecret = appSecret; }
-
-        public String getRegion() { return region; }
-        public void setRegion(String region) { this.region = region; }
-
-        public int getSampleRate() { return sampleRate; }
-        public void setSampleRate(int sampleRate) { this.sampleRate = sampleRate; }
-
-        public int getChannels() { return channels; }
-        public void setChannels(int channels) { this.channels = channels; }
-
-        public int getTokenTtlSeconds() { return tokenTtlSeconds; }
-        public void setTokenTtlSeconds(int tokenTtlSeconds) { this.tokenTtlSeconds = tokenTtlSeconds; }
     }
 }

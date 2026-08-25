@@ -1,6 +1,9 @@
 package org.skylark.application.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Response DTO for WebRTC session status
@@ -9,6 +12,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Skylark Team
  * @version 1.0.0
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SessionStatusResponse {
     
     @JsonProperty("session_id")
@@ -22,46 +28,4 @@ public class SessionStatusResponse {
     
     @JsonProperty("message")
     private String message;
-    
-    public SessionStatusResponse() {
-    }
-    
-    public SessionStatusResponse(String sessionId, String status, Boolean active, String message) {
-        this.sessionId = sessionId;
-        this.status = status;
-        this.active = active;
-        this.message = message;
-    }
-    
-    public String getSessionId() {
-        return sessionId;
-    }
-    
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
-    }
-    
-    public String getStatus() {
-        return status;
-    }
-    
-    public void setStatus(String status) {
-        this.status = status;
-    }
-    
-    public Boolean getActive() {
-        return active;
-    }
-    
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-    
-    public String getMessage() {
-        return message;
-    }
-    
-    public void setMessage(String message) {
-        this.message = message;
-    }
 }

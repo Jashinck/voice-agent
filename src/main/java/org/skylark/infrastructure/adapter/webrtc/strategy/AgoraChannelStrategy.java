@@ -2,6 +2,8 @@ package org.skylark.infrastructure.adapter.webrtc.strategy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.skylark.application.service.OrchestrationService;
@@ -160,23 +162,12 @@ public class AgoraChannelStrategy implements WebRTCChannelStrategy {
      * Internal session info for Agora strategy
      * 声网策略的内部会话信息
      */
+    @Getter
+    @AllArgsConstructor
     static class AgoraSessionInfo {
         private final String sessionId;
         private final String userId;
         private final String channelName;
         private final String clientToken;
-
-        AgoraSessionInfo(String sessionId, String userId,
-                          String channelName, String clientToken) {
-            this.sessionId = sessionId;
-            this.userId = userId;
-            this.channelName = channelName;
-            this.clientToken = clientToken;
-        }
-
-        public String getSessionId() { return sessionId; }
-        public String getUserId() { return userId; }
-        public String getChannelName() { return channelName; }
-        public String getClientToken() { return clientToken; }
     }
 }
